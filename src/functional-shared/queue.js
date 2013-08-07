@@ -6,22 +6,22 @@ var makeQueue = function(){
   queue._storage = {};
   queue._size = 0; // Hint: set an initial value here
   queue._dequeuer = 0;
-  _.extend(queue, makeQueue.queueMethods);
+  _.extend(queue, queueMethods);
   return queue;
 };
 
-makeQueue.queueMethods = {};
+var queueMethods = {};
 
-makeQueue.queueMethods.enqueue = function(value){
+queueMethods.enqueue = function(value){
   this._storage[this._size] = value;
   this._size++;
 };
 
-makeQueue.queueMethods.dequeue = function(){
+queueMethods.dequeue = function(){
   return this._storage[this._dequeuer++];
 };
 
-makeQueue.queueMethods.size = function(){
+queueMethods.size = function(){
   var length;
   if(this._size - this._dequeuer < 0) {
     length = 0;
