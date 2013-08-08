@@ -5,7 +5,6 @@ var makeQueue = function(){
   var queue = {};
   queue._storage = {};
   queue._size = 0; // Hint: set an initial value here
-  queue._dequeuer = 0;
   _.extend(queue, queueMethods);
   return queue;
 };
@@ -13,20 +12,18 @@ var makeQueue = function(){
 var queueMethods = {};
 
 queueMethods.enqueue = function(value){
-  this._storage[this._size] = value;
+  for(var i = this._size; i > 0; i--){
+    this._storage[i] = this._storage[i-1];
+  }
+  this._storage[0] = value;
   this._size++;
 };
 
 queueMethods.dequeue = function(){
-  return this._storage[this._dequeuer++];
+  this._size && this._size--;
+  return this._storage[this._size];
 };
 
 queueMethods.size = function(){
-  var length;
-  if(this._size - this._dequeuer < 0) {
-    length = 0;
-  } else {
-    length = this._size - this._dequeuer;
-  }
-  return length;
+  return this._size;
 };
