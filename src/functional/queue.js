@@ -3,29 +3,25 @@ var makeQueue = function(){
   var storage = {};
 
   var size =0; // Hint: set an initial value here
-  var dequeuer = 0;
 
   // Implement the methods below
   var queue = {};
 
   queue.enqueue = function(value){
-    storage[size] = value;
+    for (var i = size; i > 0; i--){
+      storage[i] = storage[i-1];
+    }
+    storage[0] = value;
     size++;
   };
 
   queue.dequeue = function(){
-    return storage[dequeuer++];
+    size && size--;
+    return storage[size];
   };
 
   queue.size = function(){
-    var length
-    if(size - dequeuer < 0) {
-     length = 0;
-   } else {
-    length = size - dequeuer;
-   }
-
-    return length;
+    return size;
   };
 
   return queue;
